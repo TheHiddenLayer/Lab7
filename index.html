@@ -89,6 +89,7 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchAll = () => {
+        recordForm.style.display = 'none'
         fetch(BASE_URL).then(res => res.json()).then(data => output.value = JSON.stringify(data))
       }
 
@@ -97,6 +98,7 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchOne = () => {
+        recordForm.style.display = 'none'
         fetch(BASE_URL + '/' + window.prompt("Enter ID:", "")).then(res => res.json()).then(data => output.value = JSON.stringify(data))
         .catch(err => output.value = String(err))
       }
@@ -106,6 +108,7 @@
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
       function createRecord() {
+        document.getElementById("recordID").value = ""
         document.getElementById("author").value = ""
         document.getElementById("title").value = ""
         recordForm.style.display = "block"
