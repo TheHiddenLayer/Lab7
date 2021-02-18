@@ -4,6 +4,11 @@
       "id": 1,
       "title": "json-server",
       "author": "typicode"
+    },
+    {
+      "author": "Thomas",
+      "title": "Book 2",
+      "id": 3
     }
   ],
   "comments": [

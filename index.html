@@ -100,7 +100,10 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchOne = () => {
         recordForm.style.display = 'none'
-        fetch(BASE_URL + '/' + window.prompt("Enter ID:", "")).then(res => res.json()).then(data => output.value = JSON.stringify(data))
+        fetch(BASE_URL + '/' + window.prompt("Enter ID:", ""))
+        .then(res => res.json()).then(data => {
+          output.value = (JSON.stringify(data)!="{}") ? JSON.stringify(data) : "Not Found in Records."
+        })
         .catch(err => output.value = String(err))
       }
 
@@ -109,10 +112,10 @@
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
       function createRecord() {
-        document.getElementById("recordID").style.display = 'none'
+        recordForm.style.display = "block"
+        document.getElementById("recordIDcontainer").style.display = 'none'
         document.getElementById("author").value = ""
         document.getElementById("title").value = ""
-        recordForm.style.display = "block"
         document.getElementById("executeBtn").addEventListener("click", () => {
           const authorName = document.getElementById("author").value
           const titleName = document.getElementById("title").value 
@@ -137,8 +140,8 @@
         document.getElementById("author").value = ""
         document.getElementById("title").value = ""
         document.getElementById("recordID").value = ""
-        recordForm.style.display = "block"
         document.getElementById("recordIDcontainer").style.display = "block"
+        recordForm.style.display = "block"
         document.getElementById("executeBtn").addEventListener("click", () => {
           const authorName = document.getElementById("author").value
           const titleName = document.getElementById("title").value 
