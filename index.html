@@ -89,6 +89,7 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchAll = () => {
+        recordForm.style.display = "none"
         const BASE_URL = endpointInput.value
         fetch(BASE_URL).then(res => res.json()).then(data => output.value = JSON.stringify(data))
         .catch(err => output.value = String(err))
@@ -99,6 +100,7 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchOne = () => {
+        recordForm.style.display = "none"
         fetch(endpointInput.value + '/' + window.prompt("Enter ID:", ""))
         .then(res => res.json()).then(data => {
           output.value = (JSON.stringify(data)!="{}") ? JSON.stringify(data) : "Not Found in Records."
@@ -162,6 +164,7 @@
       // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO 
       // delete all, only delete one.
       const deleteRecord = () => {
+        recordForm.style.display = "none"
         const BASE_URL = endpointInput.value
         fetch(BASE_URL + '/' + window.prompt("Enter ID:", ""), {method: 'delete'}).then(res => res.json()).then(data => output.value = JSON.stringify(data))
         .catch(err => output.value = String(err))
