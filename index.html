@@ -80,18 +80,24 @@
 
     <!-- Main Script -->
     <script type="module">
+      
       let endpointInput = document.getElementById("endpoint")
       let recordForm = document.getElementById('recordForm')
       let output = document.getElementById("output")
-
       // This function should fetch all of the data from the given endpoint.
       // From the 4 CRUD actions, this is the READ action, and uses the GET http method.
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchAll = () => {
+        document.getElementById("recordIDcontainer").style.display = "none"
         recordForm.style.display = "none"
         const BASE_URL = endpointInput.value
-        fetch(BASE_URL).then(res => res.json()).then(data => output.value = JSON.stringify(data))
+        fetch(BASE_URL)
+        .then(res => {
+          if (res.ok==false) return res.statusText
+          else return res.json()
+        })
+        .then(data => output.value = JSON.stringify(data))
         .catch(err => output.value = String(err))
       }
 
@@ -101,18 +107,26 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       const fetchOne = () => {
         recordForm.style.display = "none"
-        fetch(endpointInput.value + '/' + window.prompt("Enter ID:", ""))
-        .then(res => res.json()).then(data => {
-          output.value = (JSON.stringify(data)!="{}") ? JSON.stringify(data) : "Not Found in Records."
+        let FULL_URL = endpointInput.value + '/' + window.prompt("Enter ID:", "")
+        fetch(FULL_URL)
+        .then(res => {
+          if(res.ok == false) 
+            return res.statusText
+          else 
+            return res.json()
         })
-        .catch(err => output.value = String(err))
+        .then(data => {
+          if (data=='Not Found') output.value = "Network Error: 404"
+          else output.value = JSON.stringify(data)
+        })
+        .catch(err => output.value = err)
       }
 
       // This function should use fetch to create one entry in the given endpoint.
       // From the 4 CRUD actions, this is the CREATE action, and uses the POST http method.
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function createRecord(type) {
+      const createRecord = type => {
         document.getElementById("recordIDcontainer").style.display = "none"
         recordForm.style.display = "block"
         if (type=='submit') {
@@ -129,6 +143,8 @@
           .then(res => res.json()).then(data => output.value=JSON.stringify(data))
           .catch(err => output.value = String(err))
         } else {
+          document.getElementById("author").value = ""
+          document.getElementById("title").value = ""
           recordForm.style.display = 'block'
         }
       }
@@ -137,10 +153,10 @@
       // From the 4 CRUD actions, this is the UPDATE action, and uses the PUT http method.
       // The main difference from createRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function updateRecord(type) {
+      const updateRecord = type => {
         if(type=='submit') {
             const authorName = document.getElementById("author").value
-            const titleName = document.getElementById("title").value 
+            const titleName = document.getElementById("title").value
             const recordedId = document.getElementById("recordID").value
             const requestBody = `author=${authorName}&title=${titleName}`
             fetch(endpointInput.value + "/" + recordedId, {
@@ -153,6 +169,9 @@
             .then(res => res.json()).then(data => output.value = (JSON.stringify(data)!="{}") ? JSON.stringify(data) : "Update not possible (item not in records)")
             .catch(err => output.value = String(err))
           } else {
+          document.getElementById("author").value = ""
+          document.getElementById("title").value = ""
+          document.getElementById("recordID").value = ""
           recordForm.style.display = "block"
           document.getElementById("recordIDcontainer").style.display = "block"
         }

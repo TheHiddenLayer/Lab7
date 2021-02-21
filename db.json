@@ -1,9 +1,9 @@
 {
   "posts": [
     {
-      "author": "Testing",
-      "title": "sldkfjsldkf",
-      "id": 2
+      "author": "json-server",
+      "title": "typicode",
+      "id": 1
     }
   ],
   "comments": [],
